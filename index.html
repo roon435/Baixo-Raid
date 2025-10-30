@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>bouncy avatars</title>
+<style>
+body {
+    height:100vh;width:100vw;margin:0;
+    background:black;
+    transition:background .05s;
+}
+</style>
+<script>
+function strobe() {
+    setInterval(() =>
+        document.body.style.background =
+            document.body.style.background === 'black' ? '#fff' : 'black'
+    ,100);
+}
+function chaos() {
+    for (let i = 0; i < 20; i++) {
+        let x = Math.random() * screen.width,
+            y = Math.random() * screen.height,
+            popup = window.open('', '', `width=250,height=250,left=${x},top=${y}`);
+        if (popup)
+            popup.document.write(`
+                <html>
+                <body style="margin:0;background:white;">
+                <img src="MyAcAvatar.webp"
+                    style="display:block;margin:auto;width:auto;height:auto;
+                        max-width:200px;max-height:200px;">
+                </body>
+                </html>
+            `),
+            setInterval(() =>
+                ( x += (Math.random()-.5)*10,
+                  y += (Math.random()-.5)*10,
+                  x < 0 || x > screen.width-250 ? (dx *= -1) : null,
+                  y < 0 || y > screen.height-250 ? (dy *= -1) : null,
+                  popup.moveTo(x,y)
+                ),50);
+    }
+    strobe();
+}
+</script>
+</head>
+<body onclick="chaos()">
+<h2 style="color:white;text-align:center;margin-top:45vh;">click to bounce avatars</h2>
+</body>
+</html>
