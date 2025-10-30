@@ -1,53 +1,55 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>bouncy avatars</title>
+<title>hi generator</title>
 <style>
 body {
-    height:100vh;width:100vw;margin:0;
+    height:100vh;
+    width:100vw;
+    margin:0;
     background:black;
-    transition:background .05s;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+button {
+    font-size:2rem;
+    padding:.5em 1.5em;
+    cursor:pointer;
 }
 </style>
 <script>
-function strobe() {
-    setInterval(() =>
-        document.body.style.background =
-            document.body.style.background === 'black'
-                ? '#fff'
-                : 'black',100);
-}
-function chaos() {
-    for (let i = 0; i < 20; i++) {
-        let x = Math.random() * screen.width,
-            y = Math.random() * screen.height,
-            width = Math.random() * (150 - 50) + 50,
-            height = Math.random() * (150 - 50) + 50,
-            popup = window.open('', '', `width=${width},height=${height},left=${x},top=${y}`);
-        if (popup)
-            popup.document.write(`
-                <html>
-                <body style="margin:0;background:white;">
-                <img src="MyAcAvatar.webp"
-                    style="display:block;width:100vw;height:100vh;">
-                </body>
-                </html>
-            `),
-            setInterval(() =>
-                ( x += (Math.random()-.5)*8,
-                  y += (Math.random()-.5)*8,
-                  Math.random()<.03 &&
-                    (width = Math.random() * (150 - 50)+50,
-                     height = Math.random() * (150 - 50)+50,
-                     popup.resizeTo(width,height)),
-                  popup.moveTo(x,y)
-                ),50);
-    }
-    strobe();
+function openHi() {
+    const positions = [
+        // H left column
+        {x:100, y:100}, {x:100, y:200}, {x:100, y:300}, {x:100, y:400},
+        // H right column
+        {x:300, y:100}, {x:300, y:200}, {x:300, y:300}, {x:300, y:400},
+        // H middle bar
+        {x:200, y:250},
+        // I column
+        {x:500, y:100}, {x:500, y:200}, {x:500, y:300}, {x:500, y:400},
+    ];
+    let i = 0;
+    positions.forEach(pos => {
+        const size = 120;
+        setTimeout(()=>{
+            const w = window.open('', '', `width=${size},height=${size},left=${pos.x},top=${pos.y}`);
+            if (w) {
+                w.document.write(`
+                    <html>
+                    <body style="margin:0;overflow:hidden;background:white;">
+                        <img src="MyAcAvatar.webp" style="width:100%;height:100%;">
+                    </body>
+                    </html>
+                `);
+            }
+        }, i++ * 100);
+    });
 }
 </script>
 </head>
-<body onclick="chaos()">
-<h2 style="color:white;text-align:center;margin-top:45vh;">click to bounce avatars</h2>
+<body>
+<button onclick="openHi()">Dih</button>
 </body>
 </html>
